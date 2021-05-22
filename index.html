@@ -7,15 +7,39 @@
 
         <link rel = "stylesheet" href = "styles.css"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"></head>   
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
     <body>
         <div class = "page-container row h-100 w-100">
             <div class = "markdown-container col border border-dark">Markdown</div>
             <div class = "python-container col border border-dark">
-                <div class = "output-container row border border-dark h-50">Console</div>
-                <div class = "console-container row border border-dark h-50">Output</div>
+
+                <div class = "console-container row border border-dark h-50 bg-dark">
+                    <div id = "console-prompt" class = "console-prompt">
+                        <p class = "console-greetings text-white p-1">Python terminal using Pyodide v.0.17.0</p>
+
+                    </div>
+                    
+                    <div class = "console-command-line bg-light mt-auto h-1rem">
+                        <input id = "console-command-input" class = "console-command-input" placeholder = ">">
+                    </div>
+                </div>
+
+                <div class = "output-container row border border-dark h-50 overflow-auto">
+                    <div id = "output-container-id" onload="get_variables(this)">
+                        <p class = "output-scope-text fw-bold p-2">User Variables</p>
+                        
+                        <!-- <div class = "variable-container w-90">
+                            <p class = "variable-name m-2">x =</p>
+                            <p class = "variable-description text-break ms-4 w-75">0</p>
+                        </div> BASE VARIABLE DIV -->
+                    </div>
+                        
+                </div>
             </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src = "scripts.js"></script>
     </body>
 </html>
