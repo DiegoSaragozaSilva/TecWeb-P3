@@ -1,4 +1,10 @@
 let num_lines = 0;
+let partial_code = "";
+let is_typing_code = false;
+let first_line = true;
+let ident_num = 0;
+
+let key_words = ["for", "while", "else", "elif", "if"];
 
 function construct_variable_div(name, value) {
     var div = document.createElement("div");
@@ -36,17 +42,70 @@ function get_variables() {
 }
 
 function send_python_code(code) {
-    pyodide.runPython(code);
+
+    for(let i = 0; i < key_words.length; i++) {
+        if(code.includes(key_words[i]) && !is_typing_code) {
+            partial_code += code;
+            is_typing_code = true;
+            ident_num++;
+            return;
+        }
+    }
+
+    if(!is_typing_code && partial_code === "") {
+        console.log(pyodide.runPython(code));
+    }
+    else if(!is_typing_code && partial_code !== "") {
+        try {
+            pyodide.runPython(partial_code);
+            console.log(partial_code);
+            partial_code = "";
+            first_line = true;
+            ident_num = 0;
+        }
+        catch (e) {
+            console.log("ERROR:\n" + partial_code);
+            partial_code = "";
+            ident_num = 0;
+        }
+    }
+    else {
+        console.log(ident_num);
+        for(let i = 0; i < key_words.length; i++) {
+            if(code.includes(key_words[i]) && key_words[i] !== "else" && key_words[i] !== "elif") {
+                partial_code += "\n" + "\t".repeat(ident_num) + code;
+                first_line = false;
+                ident_num++;
+                return;
+            }
+            else if (code.includes(key_words[i]) && (key_words[i] === "else" || key_words[i] === "elif")) {
+                partial_code += "\n" + "\t".repeat(ident_num - 1) + code;
+                first_line = false;
+                return;
+            }
+        }
+        partial_code += "\n" + "\t".repeat(ident_num) + code;
+        first_line = false;
+    }
 }
 
 function add_line_to_console(code) {
-    var line = document.createElement("p");
-    line.className = "text-white pl-1";
-    line.innerHTML = "[" + num_lines + "]" + "\t" + code;
+    if(!is_typing_code || first_line){
+        var line = document.createElement("p");
+        line.className = "text-white pl-1";
+        line.innerHTML = "[" + num_lines + "]" + "\t" + code;
 
-    document.getElementById("console-prompt").appendChild(line);
-    
-    num_lines++;
+        document.getElementById("console-prompt").appendChild(line);
+        
+        num_lines++;
+    }
+    else {
+        var line = document.createElement("p");
+        line.className = "text-white pl-1";
+        line.innerHTML = "->" + "\t" + code;
+
+        document.getElementById("console-prompt").appendChild(line);
+    }
 }
 
 function clear_input() {
@@ -67,6 +126,9 @@ document.getElementById("console-command-input").addEventListener("keyup", funct
         event.preventDefault()
 
         let code = document.getElementById("console-command-input").value;
+        if(code === "") {
+            is_typing_code = false;
+        }
 
         send_python_code(code);
 
