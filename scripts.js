@@ -6,7 +6,18 @@ let ident_num = 0;
 
 let key_words = ["for", "while", "else", "elif", "if"];
 
+async function load_pyodide() {
+    await loadPyodide({ indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
+    });
+}
+
 function construct_variable_div(name, value) {
+    if (value.length >= 50) {
+        value_trim = String(value).substring(0, 50);
+        value_trim += "...";
+        value = value_trim;
+    }
+
     var div = document.createElement("div");
     div.className = "variable-container w-90";
 
@@ -25,10 +36,6 @@ function construct_variable_div(name, value) {
 
     document.getElementById("output-container-id").appendChild(div);
 }
-async function load_pyodide() {
-    await loadPyodide({ indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
-    });
-}
 
 function get_variables() {
     var globals = Array.from(pyodide.globals.toJs());
@@ -43,6 +50,7 @@ function get_variables() {
 
 function send_python_code(code) {
 
+    // Checando sintaxe de for, if, else, elif e while
     for(let i = 0; i < key_words.length; i++) {
         if(code.includes(key_words[i]) && !is_typing_code) {
             partial_code += code;
@@ -53,12 +61,11 @@ function send_python_code(code) {
     }
 
     if(!is_typing_code && partial_code === "") {
-        console.log(pyodide.runPython(code));
+        pyodide.runPython(code);
     }
     else if(!is_typing_code && partial_code !== "") {
         try {
             pyodide.runPython(partial_code);
-            console.log(partial_code);
             partial_code = "";
             first_line = true;
             ident_num = 0;
@@ -70,7 +77,6 @@ function send_python_code(code) {
         }
     }
     else {
-        console.log(ident_num);
         for(let i = 0; i < key_words.length; i++) {
             if(code.includes(key_words[i]) && key_words[i] !== "else" && key_words[i] !== "elif") {
                 partial_code += "\n" + "\t".repeat(ident_num) + code;
