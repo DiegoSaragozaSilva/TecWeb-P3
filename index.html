@@ -13,9 +13,10 @@
     <body>
         <div class = "page-container row h-100 w-100">
             <div class = "markdown-container col border border-dark">Markdown</div>
+
             <div class = "python-container col border border-dark">
 
-                <div class = "console-container row border border-dark h-50 bg-dark overflow-auto">
+                <div class = "console-container row border border-dark w-100 h-50 mh-50 bg-dark overflow-auto">
                     <div id = "console-prompt" class = "console-prompt">
                         <p class = "console-greetings text-white p-1">Python terminal using Pyodide v.0.17.0</p>
 
@@ -26,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class = "output-container row border border-dark h-50 overflow-auto">
+                <div class = "output-container row border border-dark w-100 h-50 mh-50 overflow-auto">
                     <div id = "output-container-id" onload="get_variables(this)">
                         <p class = "output-scope-text fw-bold p-2">User Variables</p>
                         

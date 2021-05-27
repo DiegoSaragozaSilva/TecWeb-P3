@@ -41,8 +41,6 @@ function get_variables() {
     var globals = Array.from(pyodide.globals.toJs());
     var globals_user = globals.slice(154, globals.length);
 
-    console.log(globals_user);
-
     for(let i = 0; i < globals_user.length; i++){
         construct_variable_div(globals_user[i][0], globals_user[i][1]);
     }
@@ -66,6 +64,7 @@ function send_python_code(code) {
     else if(!is_typing_code && partial_code !== "") {
         try {
             pyodide.runPython(partial_code);
+            console.log(partial_code);
             partial_code = "";
             first_line = true;
             ident_num = 0;
@@ -108,7 +107,7 @@ function add_line_to_console(code) {
     else {
         var line = document.createElement("p");
         line.className = "text-white pl-1";
-        line.innerHTML = "->" + "\t" + code;
+        line.innerHTML = "....".repeat(ident_num) + "\t" + code;
 
         document.getElementById("console-prompt").appendChild(line);
     }
