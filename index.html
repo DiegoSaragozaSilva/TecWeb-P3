@@ -36,8 +36,29 @@
             </div>
 
             <div class = "python-container col border border-dark">
-                <div class = "output-container row border border-dark h-50">Console</div>
-                <div class = "console-container row border border-dark h-50">Output</div>
+
+                <div class = "console-container row border border-dark w-100 h-50 mh-50 bg-dark overflow-auto">
+                    <div id = "console-prompt" class = "console-prompt">
+                        <p class = "console-greetings text-white p-1">Python terminal using Pyodide v.0.17.0</p>
+
+                    </div>
+                    
+                    <div class = "console-command-line bg-light mt-auto h-1rem">
+                        <input id = "console-command-input" class = "console-command-input" placeholder = ">">
+                    </div>
+                </div>
+
+                <div class = "output-container row border border-dark w-100 h-50 mh-50 overflow-auto">
+                    <div id = "output-container-id" onload="get_variables(this)">
+                        <p class = "output-scope-text fw-bold p-2">User Variables</p>
+                        
+                        <!-- <div class = "variable-container w-90">
+                            <p class = "variable-name m-2">x =</p>
+                            <p class = "variable-description text-break ms-4 w-75">0</p>
+                        </div> BASE VARIABLE DIV -->
+                    </div>
+                        
+                </div>
             </div>
         </div>
 
