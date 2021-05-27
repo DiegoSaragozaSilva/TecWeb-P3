@@ -1,14 +1,3 @@
-
-$('body').delegate('#editorInput', 'keyup change', function(){
-    var viewer = document.getElementById('viewer');
-    viewer.innerHTML = marked(this.value);
- });
-
- $.get( "content.md", function( data ) {
-    $("#editorInput").val(data);
-    $("#viewer").html(marked(data));
-},'text');
-
 let num_lines = 0;
 let partial_code = "";
 let is_typing_code = false;
@@ -159,3 +148,14 @@ document.getElementById("console-command-input").addEventListener("keyup", funct
 });
 
 load_pyodide();
+
+
+$('body').delegate('#editorInput', 'keyup change', function(){
+    var viewer = document.getElementById('viewer');
+    viewer.innerHTML = marked(this.value);
+ });
+
+ $.get( "content.md", function( data ) {
+    $("#editorInput").val(data);
+    $("#viewer").html(marked(data));
+},'text');

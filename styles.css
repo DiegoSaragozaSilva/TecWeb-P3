@@ -34,7 +34,7 @@ blockquote {
 }
 
 .variable-name {
-    background:#fff89e;
+    background:#fff89e!important;
 }
 
 .console-command-input {

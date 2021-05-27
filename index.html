@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- PUT HEADER HERE -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,9 +11,11 @@
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
     </head>
     <body>
-        <div class = "page-container row h-100 w-100">
+        <div class = "page-container row w-100">
 
             <div class = "markdown-container col border d-flex flex-column">
                 <ul class="nav nav-tabs sticky-top bg-light" id="tabs" role="tablist">
@@ -35,7 +36,7 @@
                 </div>
             </div>
 
-            <div class = "python-container col border border-dark">
+            <div class = "python-container col border border-dark sticky-top">
 
                 <div class = "console-container row border border-dark w-100 h-50 mh-50 bg-dark overflow-auto">
                     <div id = "console-prompt" class = "console-prompt">
