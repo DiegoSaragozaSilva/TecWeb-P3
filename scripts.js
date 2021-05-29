@@ -7,7 +7,8 @@ let ident_num = 0;
 let key_words = ["for", "while", "else", "elif", "if"];
 
 async function load_pyodide() {
-    await loadPyodide({ indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
+    await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
+        pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scikit-learn"]);
     });
 }
 
