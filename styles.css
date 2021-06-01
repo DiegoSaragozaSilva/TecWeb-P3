@@ -13,12 +13,28 @@ html, body {
     padding-left: 1rem * .25!important;
 }
 
+pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+
+blockquote {
+    border-left: 4px solid #DDD;
+    padding: 0 15px;
+    color: #777;
+}
+
 .row {
     --bs-gutter-x:0em!important;
 }
 
 .variable-name {
-    background:#fff89e;
+    background:#fff89e!important;
 }
 
 .console-code {
