@@ -37,12 +37,18 @@ blockquote {
     background:#fff89e!important;
 }
 
+.console-code {
+    white-space: pre-wrap!important;
+}
+
 .console-command-input {
     position: relative!important;
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    overflow: auto;
+    resize: none;
 }
+
 .python-container {
     height: 100vh!important;
 }
