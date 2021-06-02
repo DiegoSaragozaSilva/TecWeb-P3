@@ -1,13 +1,17 @@
-let num_lines = 0;
-let partial_code = "";
-let is_typing_code = false;
-let first_line = true;
-let ident_num = 0;
+import autosize from "./autosize.js"
 
-let key_words = ["for", "while", "else", "elif", "if"];
+let num_lines = 0;
+let keys_pressed = {};
+
+let key_words = ["def", "for", "while", "else", "elif", "if", "with"];
 
 async function load_pyodide() {
-    await loadPyodide({ indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
+    document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
+    await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
+        pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scikit-learn"]).then(() => {
+            document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
+            document.getElementById("loading-inform").remove();
+        });
     });
 }
 
@@ -41,76 +45,8 @@ function get_variables() {
     var globals = Array.from(pyodide.globals.toJs());
     var globals_user = globals.slice(154, globals.length);
 
-    console.log(globals_user);
-
     for(let i = 0; i < globals_user.length; i++){
         construct_variable_div(globals_user[i][0], globals_user[i][1]);
-    }
-}
-
-function send_python_code(code) {
-
-    // Checando sintaxe de for, if, else, elif e while
-    for(let i = 0; i < key_words.length; i++) {
-        if(code.includes(key_words[i]) && !is_typing_code) {
-            partial_code += code;
-            is_typing_code = true;
-            ident_num++;
-            return;
-        }
-    }
-
-    if(!is_typing_code && partial_code === "") {
-        pyodide.runPython(code);
-    }
-    else if(!is_typing_code && partial_code !== "") {
-        try {
-            pyodide.runPython(partial_code);
-            partial_code = "";
-            first_line = true;
-            ident_num = 0;
-        }
-        catch (e) {
-            console.log("ERROR:\n" + partial_code);
-            partial_code = "";
-            ident_num = 0;
-        }
-    }
-    else {
-        for(let i = 0; i < key_words.length; i++) {
-            if(code.includes(key_words[i]) && key_words[i] !== "else" && key_words[i] !== "elif") {
-                partial_code += "\n" + "\t".repeat(ident_num) + code;
-                first_line = false;
-                ident_num++;
-                return;
-            }
-            else if (code.includes(key_words[i]) && (key_words[i] === "else" || key_words[i] === "elif")) {
-                partial_code += "\n" + "\t".repeat(ident_num - 1) + code;
-                first_line = false;
-                return;
-            }
-        }
-        partial_code += "\n" + "\t".repeat(ident_num) + code;
-        first_line = false;
-    }
-}
-
-function add_line_to_console(code) {
-    if(!is_typing_code || first_line){
-        var line = document.createElement("p");
-        line.className = "text-white pl-1";
-        line.innerHTML = "[" + num_lines + "]" + "\t" + code;
-
-        document.getElementById("console-prompt").appendChild(line);
-        
-        num_lines++;
-    }
-    else {
-        var line = document.createElement("p");
-        line.className = "text-white pl-1";
-        line.innerHTML = "->" + "\t" + code;
-
-        document.getElementById("console-prompt").appendChild(line);
     }
 }
 
@@ -126,19 +62,33 @@ function clear_workspace() {
     }
 }
 
-// Events
-document.getElementById("console-command-input").addEventListener("keyup", function(event) {
-    if (event.code == 'Enter') {
-        event.preventDefault()
+function send_python_code(code) {
+    pyodide.runPython(code);
+}
 
+function add_code_to_console(code) {
+    let c_p = document.createElement('p');
+
+    c_p.innerHTML = "[" + num_lines + "]" + " " + code;
+    c_p.className = "console-code text-white p-1";
+    
+    document.getElementById("console-prompt").appendChild(c_p);
+
+    num_lines++;
+}
+
+// Events
+document.getElementById("console-command-input").addEventListener("keydown", function(event) {
+    keys_pressed[event.key] = true;
+
+    if (keys_pressed['Shift'] && event.key == 'Enter') {
+        event.preventDefault();
+        
         let code = document.getElementById("console-command-input").value;
-        if(code === "") {
-            is_typing_code = false;
-        }
 
         send_python_code(code);
 
-        add_line_to_console(code);
+        add_code_to_console(code);
 
         clear_input();
 
@@ -146,7 +96,38 @@ document.getElementById("console-command-input").addEventListener("keyup", funct
 
         get_variables();
     }
+
+    else if (event.code == 'Tab') {
+        event.preventDefault();
+
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+
+        this.value = this.value.substring(0, start) +
+        "\t" + this.value.substring(end);
+
+        this.selectionStart =
+        this.selectionEnd = start + 1;
+    }
+});
+
+document.getElementById("console-command-input").addEventListener("keyup", function(event) {
+    delete keys_pressed[event.key];
+
+    if (event.code == 'Enter') {
+        event.preventDefault();
+    }
 });
 
 load_pyodide();
+autosize(document.getElementById("console-command-input"));
 
+$('body').delegate('#editorInput', 'keyup change', function(){
+    var viewer = document.getElementById('viewer');
+    viewer.innerHTML = marked(this.value);
+ });
+
+ $.get( "content.md", function( data ) {
+    $("#editorInput").val(data);
+    $("#viewer").html(marked(data));
+},'text');
