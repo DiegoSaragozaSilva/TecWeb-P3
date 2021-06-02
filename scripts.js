@@ -16,11 +16,14 @@ async function load_pyodide() {
 }
 
 function construct_variable_div(name, value) {
+    console.log(name, value);
     if (value.length >= 50) {
-        value_trim = String(value).substring(0, 50);
+        let value_trim = String(value).substring(0, 50);
         value_trim += "...";
         value = value_trim;
     }
+
+    console.log(name, value);
 
     var div = document.createElement("div");
     div.className = "variable-container w-90";
