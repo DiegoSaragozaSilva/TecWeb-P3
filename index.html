@@ -50,15 +50,15 @@
                 <div class = "console-container row border border-dark w-100 h-100 bg-dark overflow-auto">
                     <div id = "console-prompt" class = "console-prompt">
                         <p class = "console-greetings text-white p-1">Python terminal using Pyodide v.0.17.0</p>
+                        <p id = "loading-inform" class = "console-greetings text-white p-1">Loading Python packages. Please, wait...</p>
                     </div>
                     <div class = "console-command-line bg-light mt-auto h-1rem">
-                        <input id = "console-command-input" class = "console-command-input" placeholder = ">">
+                        <textarea id = "console-command-input" class = "console-command-input" placeholder = ">"></textarea>
                     </div>
                 </div>
 
             </div>
         </div>
-        
-        <script src="scripts.js"></script>
+        <script type = "module" src = "scripts.js"></script>
     </body>
 </html>
