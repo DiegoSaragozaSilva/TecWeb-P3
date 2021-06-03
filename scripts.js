@@ -4,7 +4,7 @@ let num_lines = 0;
 let keys_pressed = {};
 
 let key_words = ["def", "for", "while", "else", "elif", "if", "with"];
-let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
+let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR", "np", "plt", "sns", "pd", "io", "base64"]
 
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
@@ -12,6 +12,11 @@ async function load_pyodide() {
         pyodide.loadPackage(["numpy", "matplotlib"]).then(() => {
             document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
             document.getElementById("loading-inform").remove();
+            pyodide.runPython(`
+                import io, base64
+                import numpy as np
+                import matplotlib.pyplot as plt`
+          );
         });
     });
 }
@@ -69,8 +74,6 @@ function send_python_code(code) {
     pyodide.runPython(code);
     if (code.includes('plt.show()')) {
         pyodide.runPython(`
-                import io, base64
-
                 cb7e52b21171fb9a53b498202607f0bd = io.BytesIO()
                 plt.savefig(cb7e52b21171fb9a53b498202607f0bd, format='png')
                 cb7e52b21171fb9a53b498202607f0bd.seek(0)
