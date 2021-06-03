@@ -4,11 +4,12 @@ let num_lines = 0;
 let keys_pressed = {};
 
 let key_words = ["def", "for", "while", "else", "elif", "if", "with"];
+let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
 
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
     await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
-        pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scikit-learn"]).then(() => {
+        pyodide.loadPackage(["numpy", "matplotlib"]).then(() => {
             document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
             document.getElementById("loading-inform").remove();
         });
@@ -16,32 +17,31 @@ async function load_pyodide() {
 }
 
 function construct_variable_div(name, value) {
-    console.log(name, value);
     if (value.length >= 50) {
         let value_trim = String(value).substring(0, 50);
         value_trim += "...";
         value = value_trim;
     }
 
-    console.log(name, value);
+    if (!selected_vars_names.includes(name)){
+        var div = document.createElement("div");
+        div.className = "variable-container w-90";
 
-    var div = document.createElement("div");
-    div.className = "variable-container w-90";
+        var v_name = document.createElement("p");
+        var v_value = document.createElement("p");
+        
+        v_name.innerHTML = name + ' =';
 
-    var v_name = document.createElement("p");
-    var v_value = document.createElement("p");
-    
-    v_name.innerHTML = name + ' =';
+        v_value.innerHTML = value;
 
-    v_value.innerHTML = value;
+        v_name.className = "variable-name m-2";
+        v_value.className = "variable-description text-break ms-4 w-75";
 
-    v_name.className = "variable-name m-2";
-    v_value.className = "variable-description text-break ms-4 w-75";
+        div.appendChild(v_name);
+        div.appendChild(v_value);
 
-    div.appendChild(v_name);
-    div.appendChild(v_value);
-
-    document.getElementById("output-container-id").appendChild(div);
+        document.getElementById("output-container-id").appendChild(div);
+    }
 }
 
 function get_variables() {
@@ -67,6 +67,23 @@ function clear_workspace() {
 
 function send_python_code(code) {
     pyodide.runPython(code);
+    if (code.includes('plt.show()')) {
+        pyodide.runPython(`
+                import io, base64
+
+                cb7e52b21171fb9a53b498202607f0bd = io.BytesIO()
+                plt.savefig(cb7e52b21171fb9a53b498202607f0bd, format='png')
+                cb7e52b21171fb9a53b498202607f0bd.seek(0)
+                MTISGR = 'data:image/png;base64,' + base64.b64encode(cb7e52b21171fb9a53b498202607f0bd.read()).decode('UTF-8')
+                plt.clf()`
+          );
+
+        var img = document.createElement("img");
+        img.src = pyodide.globals.MTISGR;
+        img.className = "variable-description text-break ms-4 w-75";
+
+        document.getElementById("graph-container-id").appendChild(img);
+    }
 }
 
 function add_code_to_console(code) {
