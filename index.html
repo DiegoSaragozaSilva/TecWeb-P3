@@ -28,6 +28,9 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="variables-tab" data-bs-toggle="tab" data-bs-target="#variables" type="button" role="tab" aria-controls="variables" aria-selected="true">Variables</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="graphs-tab" data-bs-toggle="tab" data-bs-target="#graphs" type="button" role="tab" aria-controls="graphs" aria-selected="true">Graphs</button>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -40,6 +43,12 @@
                     <div class = "tab-pane fade output-container" id="variables" role="tabpanel" aria-labelledby="variables-tab">
                         <div id = "output-container-id" onload="get_variables(this)">
                             <p class = "output-scope-text fw-bold p-2">User Variables</p>
+                        </div>
+                    </div>
+
+                    <div class = "tab-pane fade graph-container" id="graphs" role="tabpanel" aria-labelledby="graphs-tab">
+                        <div id = "graph-container-id">
+                            <p class = "graph-scope-text fw-bold p-2">User Graphs</p>
                         </div>
                     </div>
                 </div>

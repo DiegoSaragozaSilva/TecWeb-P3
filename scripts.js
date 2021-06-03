@@ -6,12 +6,19 @@ let keys_pressed = {};
 let excluded_types = ["module", "DataFrame"];
 let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
 
+
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
     await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
         pyodide.loadPackage(["numpy", "matplotlib", "pandas"]).then(() => {
             document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
             document.getElementById("loading-inform").remove();
+            pyodide.runPython(`
+                import io, base64
+                import numpy as np
+                import matplotlib.pyplot as plt
+                import pandas as pd`
+          );
         });
     });
 }
@@ -139,8 +146,6 @@ function send_python_code(code) {
     pyodide.runPython(code);
     if (code.includes('plt.show()')) {
         pyodide.runPython(`
-                import io, base64
-
                 cb7e52b21171fb9a53b498202607f0bd = io.BytesIO()
                 plt.savefig(cb7e52b21171fb9a53b498202607f0bd, format='png')
                 cb7e52b21171fb9a53b498202607f0bd.seek(0)
