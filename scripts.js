@@ -10,16 +10,21 @@ let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
     await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
-        pyodide.loadPackage(["numpy", "matplotlib", "pandas"]).then(() => {
-            document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
-            document.getElementById("loading-inform").remove();
-            pyodide.runPython(`
-                import io, base64
-                import numpy as np
-                import matplotlib.pyplot as plt
-                import pandas as pd`
-          );
-        });
+        pyodide.runPythonAsync(`
+                import micropip
+                await micropip.install('https://files.pythonhosted.org/packages/68/ad/6c2406ae175f59ec616714e408979b674fe27b9587f79d59a528ddfbcd5b/seaborn-0.11.1-py3-none-any.whl')
+            `).then(() => {
+                pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy"]).then(() => {
+                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
+                    document.getElementById("loading-inform").remove();
+                    pyodide.runPython(`
+                        import io, base64
+                        import numpy as np
+                        import matplotlib.pyplot as plt
+                        import pandas as pd`
+                  );
+                });
+            });
     });
 }
 
@@ -58,7 +63,7 @@ function construct_dataframe_div(name, data) {
     var df_div = document.createElement("div");
     var df_table = document.createElement("table");
 
-    df_table.className = "dataframe-container variable-description table";
+    df_table.className = "dataframe-container variable-description table mh-10r";
     df_div.className = "variable-container w-90";
 
     var v_name = document.createElement("p");
@@ -92,8 +97,12 @@ function construct_dataframe_div(name, data) {
         df_tr_head.appendChild(df_thshead[i + 1]);
     }
 
+    var len = variables[0].length;
+    if(len > 5) {
+        len = 5
+    }
 
-    for(var i = 0; i < variables[0].length; i++) {
+    for(var i = 0; i < len; i++) {
         var tr = document.createElement("tr");
         var th = document.createElement("th");
 
@@ -112,6 +121,12 @@ function construct_dataframe_div(name, data) {
     }
 
     df_table.appendChild(df_tbody);
+
+    if(len == 5) {
+        var p = document.createElement("p");
+        p.innerHTML = ".  .  .";
+        df_div.appendChild(p);
+    }
 
     document.getElementById("output-container-id").appendChild(df_div);
 }
