@@ -10,16 +10,23 @@ let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
     await loadPyodide({ 'indexURL' : "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }).then(() => {
-        pyodide.loadPackage(["numpy", "matplotlib", "pandas"]).then(() => {
-            document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
-            document.getElementById("loading-inform").remove();
-            pyodide.runPython(`
-                import io, base64
-                import numpy as np
-                import matplotlib.pyplot as plt
-                import pandas as pd`
-          );
-        });
+        pyodide.runPythonAsync(`
+                import micropip
+                await micropip.install('https://files.pythonhosted.org/packages/68/ad/6c2406ae175f59ec616714e408979b674fe27b9587f79d59a528ddfbcd5b/seaborn-0.11.1-py3-none-any.whl')
+            `).then(() => {
+                pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy"]).then(() => {
+                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
+                    document.getElementById("loading-inform").remove();
+                    pyodide.runPython(`
+                        import io, base64
+                        import numpy as np
+                        import matplotlib.pyplot as plt
+                        import pandas as pd
+                        import seaborn as sns
+                        sns.set()`
+                  );
+                });
+            });
     });
 }
 
