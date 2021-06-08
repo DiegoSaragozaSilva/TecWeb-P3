@@ -13,6 +13,10 @@ html, body {
     padding-left: 1rem * .25!important;
 }
 
+.mh-10r {
+    height: 10rem!important;
+}
+
 pre {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
