@@ -4,8 +4,7 @@ let num_lines = 0;
 let keys_pressed = {};
 
 let excluded_types = ["module", "DataFrame"];
-let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
-
+let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR", "c9e1fa50ad883321d683851c99cf5352"]
 
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
@@ -15,17 +14,34 @@ async function load_pyodide() {
                 await micropip.install('https://files.pythonhosted.org/packages/68/ad/6c2406ae175f59ec616714e408979b674fe27b9587f79d59a528ddfbcd5b/seaborn-0.11.1-py3-none-any.whl')
             `).then(() => {
                 pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy"]).then(() => {
-                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
-                    document.getElementById("loading-inform").remove();
-                    pyodide.runPython(`
+
+                    $(document).ready(function() {
+                        $.ajax({
+                            type: "GET",
+                            url: "https://raw.githubusercontent.com/DiegoSaragozaSilva/TecWeb-P3/main/assets/data/churn-bigml-20.csv",
+                            dataType: "text",
+                            success: function(data) {processData(data);}
+                         });
+                    });
+                    
+                    function processData(allText) {
+                        pyodide.globals.set('c9e1fa50ad883321d683851c99cf5352',allText);
+                        pyodide.runPython(`
                         import io, base64
+                        import sys
                         import numpy as np
                         import matplotlib.pyplot as plt
                         
                         import pandas as pd
                         import seaborn as sns
-                        sns.set()`
-                  );
+                        sns.set()
+
+                        churn = pd.read_csv(io.StringIO(c9e1fa50ad883321d683851c99cf5352))`
+                        );
+                    }
+
+                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
+                    document.getElementById("loading-inform").remove();
                 });
             });
     });
@@ -67,7 +83,7 @@ function construct_dataframe_div(name, data) {
     var df_table = document.createElement("table");
 
     df_table.className = "dataframe-container variable-description table mh-10r";
-    df_div.className = "variable-container w-90";
+    df_div.className = "variable-container table-responsive df_container w-90";
 
     var v_name = document.createElement("p");
 
@@ -100,12 +116,7 @@ function construct_dataframe_div(name, data) {
         df_tr_head.appendChild(df_thshead[i + 1]);
     }
 
-    var len = variables[0].length;
-    if(len > 5) {
-        len = 5
-    }
-
-    for(var i = 0; i < len; i++) {
+    for(var i = 0; i < variables[0].length; i++) {
         var tr = document.createElement("tr");
         var th = document.createElement("th");
 
@@ -124,12 +135,6 @@ function construct_dataframe_div(name, data) {
     }
 
     df_table.appendChild(df_tbody);
-
-    if(len == 5) {
-        var p = document.createElement("p");
-        p.innerHTML = ".  .  .";
-        df_div.appendChild(p);
-    }
 
     document.getElementById("output-container-id").appendChild(df_div);
 }

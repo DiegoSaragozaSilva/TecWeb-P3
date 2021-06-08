@@ -17,6 +17,10 @@ html, body {
     height: 10rem!important;
 }
 
+.table-responsive {
+    height: 25rem!important;
+}
+
 pre {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
@@ -55,4 +59,8 @@ blockquote {
 
 .python-container {
     height: 100vh!important;
+}
+
+.markdown-container {
+    width: 50%!important;
 }
