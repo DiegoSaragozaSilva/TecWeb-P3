@@ -21,7 +21,10 @@ async function load_pyodide() {
                         import io, base64
                         import numpy as np
                         import matplotlib.pyplot as plt
-                        import pandas as pd`
+                        
+                        import pandas as pd
+                        import seaborn as sns
+                        sns.set()`
                   );
                 });
             });

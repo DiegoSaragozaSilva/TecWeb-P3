@@ -38,14 +38,6 @@ Como diria o filósofo estóico Sêneca:
 
 Mas chega de enrolação!
 
-Primeiro, comece importando os módulos que usaremos nessa parte. Eles são:
-
-- [pandas (pd)](https://pandas.pydata.org)
-- [matplotlib (plt)](https://matplotlib.org)
-- [seaborn! (sns)](https://seaborn.pydata.org)
-
-Com foco no Seaborn.
-
 Escolher o que você quer demonstrar é um passo essencial para sabermos qual o melhor gráfico a fazer. Uma regra de bolso boa a se seguir é essa usada pelo Kaggle:
 
 <img class="align-item-self" src="https://imgur.com/2VmgDnF.png" width="100%">
@@ -55,19 +47,6 @@ Vejamos alguns exemplos de uso. O dataset utilizado aqui é o <i>"Orange Telecom
 Façamos um estudo das features quantitativas. Se plotarmos a feature <i>Total Day Minutes</i>, obteremos a seguinte distribuição (pode ser utilizando o método ```.hist()``` do dataframe por agora):
 
 <img class="align-item-self" src="assets/imgs/distribuicao_total_day_minutes.png" width="100%">
-
-Para utilizar esse tema de gráfico, eu realizei a seguinte importação no início:
-
-```
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-
-sns.set()
-
-%config InlineBackend.figure_format = 'svg'
-```
 
 Agora é sua vez, descubra quais são todas as variáveis quantitativas e plot em uma única imagem (como subplots) a distribuição destas. <b>Não faça isso plotando uma por vez!</b> Pense na maneira mais ágil de fazê-lo. Você pode conferir as imagens geradas na aba "Variables".
 
