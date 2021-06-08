@@ -67,7 +67,7 @@ function construct_dataframe_div(name, data) {
     var df_table = document.createElement("table");
 
     df_table.className = "dataframe-container variable-description table mh-10r";
-    df_div.className = "variable-container w-90";
+    df_div.className = "variable-container table-responsive df_container w-90";
 
     var v_name = document.createElement("p");
 
