@@ -7,21 +7,21 @@ Este é um serviço web para desenvolvimento rápido em Python com foco no apren
 
 ## Cronograma
 ### 1° Semana:
-	Parser de markdown 					[Ok]
+	Parser de markdown 			[Ok]
 	Implementação inicial do Pyodide 	[Ok]
-	Workspace com variáveis				[Ok]
+	Workspace com variáveis			[Ok]
 ### 2° Semana:
 	Melhorar a implementação do Pyodide [Ok]
 	Deixar o console mais responsivo	[Ok]
 	Editor e visualizador de Markdown	[Ok]
 ### 3° Semana:
-	Inputs em Python melhorado			[Ok]
+	Inputs em Python melhorado		[Ok]
 	Aba de gráficos	e visualização		[Ok]
-	Aba do Workspace					[Ok]
+	Aba do Workspace			[Ok]
 ### 4° Semana:
 	Imports em Python (Numpy, Scipy...)	[Ok]
 	Finalizar Handout de C. dos Dados	[  ]
-	Modelos de ML 						[  ]
+	Modelos de ML 				[  ]
 
 ## Autores
 #### Caio Emmanuel Soares Rocha
