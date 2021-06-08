@@ -14,8 +14,6 @@ async function load_pyodide() {
                 await micropip.install('https://files.pythonhosted.org/packages/68/ad/6c2406ae175f59ec616714e408979b674fe27b9587f79d59a528ddfbcd5b/seaborn-0.11.1-py3-none-any.whl')
             `).then(() => {
                 pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy"]).then(() => {
-                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
-                    document.getElementById("loading-inform").remove();
 
                     $(document).ready(function() {
                         $.ajax({
@@ -41,6 +39,9 @@ async function load_pyodide() {
                         churn = pd.read_csv(io.StringIO(c9e1fa50ad883321d683851c99cf5352))`
                         );
                     }
+
+                    document.getElementsByClassName("console-command-line")[0].style.visibility = "visible";
+                    document.getElementById("loading-inform").remove();
                 });
             });
     });
@@ -115,12 +116,7 @@ function construct_dataframe_div(name, data) {
         df_tr_head.appendChild(df_thshead[i + 1]);
     }
 
-    var len = variables[0].length;
-    if(len > 5) {
-        len = 5
-    }
-
-    for(var i = 0; i < len; i++) {
+    for(var i = 0; i < variables[0].length; i++) {
         var tr = document.createElement("tr");
         var th = document.createElement("th");
 
@@ -139,12 +135,6 @@ function construct_dataframe_div(name, data) {
     }
 
     df_table.appendChild(df_tbody);
-
-    if(len == 5) {
-        var p = document.createElement("p");
-        p.innerHTML = ".  .  .";
-        df_div.appendChild(p);
-    }
 
     document.getElementById("output-container-id").appendChild(df_div);
 }

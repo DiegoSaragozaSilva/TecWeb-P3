@@ -17,10 +17,8 @@ html, body {
     height: 10rem!important;
 }
 
-.df-container {
-    width: 90%;
-    overflow-x: auto;
-    white-space: nowrap;
+.table-responsive {
+    height: 25rem!important;
 }
 
 pre {
