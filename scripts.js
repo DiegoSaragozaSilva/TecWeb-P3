@@ -4,7 +4,7 @@ let num_lines = 0;
 let keys_pressed = {};
 
 let excluded_types = ["module", "DataFrame"];
-let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR"]
+let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR", "c9e1fa50ad883321d683851c99cf5352"]
 
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
@@ -27,7 +27,7 @@ async function load_pyodide() {
                     });
                     
                     function processData(allText) {
-                        pyodide.globals.set('churnStr',allText);
+                        pyodide.globals.set('c9e1fa50ad883321d683851c99cf5352',allText);
                         pyodide.runPython(`
                         import io, base64
                         import sys
@@ -38,7 +38,7 @@ async function load_pyodide() {
                         import seaborn as sns
                         sns.set()
 
-                        churn = pd.read_csv(io.StringIO(churnStr))`
+                        churn = pd.read_csv(io.StringIO(c9e1fa50ad883321d683851c99cf5352))`
                         );
                     }
                 });
