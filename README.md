@@ -11,7 +11,7 @@ Este é um serviço web para desenvolvimento rápido em Python com foco no apren
 	Implementação inicial do Pyodide 	[Ok]
 	Workspace com variáveis			[Ok]
 ### 2° Semana:
-	Melhorar a implementação do Pyodide [Ok]
+	Melhorar a implementação do Pyodide 	[Ok]
 	Deixar o console mais responsivo	[Ok]
 	Editor e visualizador de Markdown	[Ok]
 ### 3° Semana:
@@ -20,8 +20,8 @@ Este é um serviço web para desenvolvimento rápido em Python com foco no apren
 	Aba do Workspace			[Ok]
 ### 4° Semana:
 	Imports em Python (Numpy, Scipy...)	[Ok]
-	Finalizar Handout de C. dos Dados	[  ]
-	Modelos de ML 				[  ]
+	Finalizar Handout de C. dos Dados	[Ok]
+	Modelos de ML 				[Ok]
 
 ## Autores
 #### Caio Emmanuel Soares Rocha
