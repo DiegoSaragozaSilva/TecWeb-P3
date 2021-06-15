@@ -31,6 +31,9 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="graphs-tab" data-bs-toggle="tab" data-bs-target="#graphs" type="button" role="tab" aria-controls="graphs" aria-selected="true">Graphs</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="rules-tab" data-bs-toggle="tab" data-bs-target="#rules" type="button" role="tab" aria-controls="rules" aria-selected="true">Rules</button>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -51,6 +54,14 @@
                             <p class = "graph-scope-text fw-bold p-2">User Graphs</p>
                         </div>
                     </div>
+
+                    <div class = "tab-pane fade graph-container" id="graphs" role="tabpanel" aria-labelledby="graphs-tab">
+                        <div id = "graph-container-id">
+                            <p class = "graph-scope-text fw-bold p-2">User Graphs</p>
+                        </div>
+                    </div>
+
+                    <div class = "tab-pane fade rules-container" id="rules" role="tabpanel" aria-labelledby="rules-tab"></div>
                 </div>
             </div>
 

@@ -4,7 +4,7 @@ let num_lines = 0;
 let keys_pressed = {};
 
 let excluded_types = ["module", "DataFrame"];
-let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR", "c9e1fa50ad883321d683851c99cf5352"]
+let selected_vars_names = ["cb7e52b21171fb9a53b498202607f0bd", "MTISGR", "c9e1fa50ad883321d683851c99cf5352", "train_test_split", "DecisionTreeClassifier", "classification_report"]
 
 async function load_pyodide() {
     document.getElementsByClassName("console-command-line")[0].style.visibility = "hidden";
@@ -13,7 +13,7 @@ async function load_pyodide() {
                 import micropip
                 await micropip.install('https://files.pythonhosted.org/packages/68/ad/6c2406ae175f59ec616714e408979b674fe27b9587f79d59a528ddfbcd5b/seaborn-0.11.1-py3-none-any.whl')
             `).then(() => {
-                pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy"]).then(() => {
+                pyodide.loadPackage(["numpy", "matplotlib", "pandas", "scipy", "scikit-learn"]).then(() => {
 
                     $(document).ready(function() {
                         $.ajax({
@@ -29,11 +29,15 @@ async function load_pyodide() {
                         pyodide.runPython(`
                         import io, base64
                         import sys
+
                         import numpy as np
                         import matplotlib.pyplot as plt
-                        
                         import pandas as pd
                         import seaborn as sns
+                        from sklearn.model_selection import train_test_split
+                        from sklearn.tree import DecisionTreeClassifier
+                        from sklearn.metrics import classification_report
+
                         sns.set()
 
                         churn = pd.read_csv(io.StringIO(c9e1fa50ad883321d683851c99cf5352))`
@@ -248,4 +252,8 @@ $('body').delegate('#editorInput', 'keyup change', function(){
  $.get( "content.md", function( data ) {
     $("#editorInput").val(data);
     $("#viewer").html(marked(data));
+},'text');
+
+$.get( "rules.md", function( data ) {
+    $("#rules").html(marked(data));
 },'text');
