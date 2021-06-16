@@ -2,6 +2,8 @@
 
 Este é um serviço web para desenvolvimento rápido em Python com foco no aprendizado de conceitos básicos de Ciência dos Dados e modelos de Machine Learning. O público alvo desse projeto são os alunos da matéria de Ciência dos Dados do segundo semestre de Engenharia do Insper que desejam refinar seus conhecimentos em modelos e apresentar um resultado melhor e mais consistente em seus trabalhos finais na matéria.
 
+Página do serviço: https://diegosaragozasilva.github.io/TecWeb-P3/
+
 ## Arquitetura (diagrama)
 ![arquitetura](https://i.imgur.com/klAASQO.jpg)
 
